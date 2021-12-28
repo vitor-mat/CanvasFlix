@@ -3,42 +3,14 @@
     padding: 0;
 }
 
-#game{
-    width: 500px;
-    height: 200px;
-    border: 1px solid black;
+.container{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-#character{
-    width: 20px;
-    height: 50px;
-    background: red;
-    position: relative;
-    top: 150px;
-}
-
-.animate{
-    animation: jump .6s linear;
-}
-
-@keyframes jump{
-    0%{top: 150px;}
-    30%{top: 70px;}
-    70%{top: 70px;}
-    100%{top: 150px;}
-}
-
-#block{
-    width: 20px;
-    height: 20px;
-    background: blue;
-    position: relative;
-    top: 130px;
-    left: 480px;
-    animation: block 1s infinite linear;
-}
-
-@keyframes block{
-    0%{left: 480px;}
-    100%{left: -40px;}
+#myCanvas{
+    width: 1005;
+    flex: 1;
 }

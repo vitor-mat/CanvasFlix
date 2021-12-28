@@ -12,7 +12,6 @@ function elements(){
 function jump(){
 
     const { character } = elements();
-
     if(character.className === ""){
         character.classList.add("animate");
         setTimeout(() => character.classList.remove("animate"), 600)
@@ -21,3 +20,7 @@ function jump(){
 }
 
 document.getElementById("game").addEventListener("click", jump)
+
+let checkDead = setInterval(() => {
+    let characterTop = window.getComputedStyle(character).getPropertyValue("top")
+}, 10);
