@@ -1,26 +1,27 @@
 function elements(){
-    const character = document.querySelector("#character")
-    const block = document.querySelector("#block")
-    
+    const canvas = document.querySelector("#myCanvas")
+    const ctx = canvas.getContext("2d");
+
     return{
-        character,
-        block
+        canvas,
+        ctx
     }
 }
 
+function creacteCharacter(){
+    
+    const { ctx, canvas } = elements();
+    
+    const height = 10
+    const y = 150 - height;
+    
+    console.log(y)
 
-function jump(){
+    ctx.fillStyle = "red";
+    ctx.fillRect(0, y, height, 15)
 
-    const { character } = elements();
-    if(character.className === ""){
-        character.classList.add("animate");
-        setTimeout(() => character.classList.remove("animate"), 600)
-
-    }
 }
 
-document.getElementById("game").addEventListener("click", jump)
-
-let checkDead = setInterval(() => {
-    let characterTop = window.getComputedStyle(character).getPropertyValue("top")
-}, 10);
+(function startGame(){
+    creacteCharacter()
+})()
