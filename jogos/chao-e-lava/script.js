@@ -21,7 +21,20 @@ const pointsToFinsh = {
 
 const pause = {}
 
-loadSprite("bean", "sprites/pac.png")
+
+loadSpriteAtlas("sprites/ninja/right/stand/ninja_stand.png", {
+    "bean": {
+        x: 0,
+        y: 0,
+        width: 88,
+        height: 60,
+        sliceX: 2,
+        anims: {
+            idle: { from: 0, to: 1, loop: true },
+            jump: { from: 0, to: 0, loop: false}
+        },
+    },
+})
 loadSprite("tree-top-image", "sprites/tree_top.png")
 loadSprite("lava-bottom-image", "sprites/lava_bottom.png")
 loadSprite("lava-left-image", "sprites/lava_left.png")
@@ -58,21 +71,20 @@ scene("game", () => {
         pos(150, 40),
         area(),
         body(),
-        z(10000),
-        "player"
+        z(10000)
     ])
+
+    bean.play("idle")
 
     const moveForce = 400
     const jumpForce = 800
-
-    fullscreen(!isFullscreen())
-
     
 
     // .jump() when "space" key is pressed
     onKeyPress("up", () => {
         if (bean.isGrounded()) {
             bean.jump(jumpForce);
+            bean.play("jump")
         }
     })
 
@@ -94,6 +106,12 @@ scene("game", () => {
         color(79, 79, 79),
         "plataform-start",
     ])
+
+    bean.onCollide("plataform-start", () => {
+        if(!bean.isGrounded()){
+            bean.play("idle")
+        }
+    })
 
     /* ENYME 1 --------------------------------------------------- */
 
@@ -133,6 +151,13 @@ scene("game", () => {
             move(LEFT, 150),
             "plataforms", // add a tag here
         ]);
+
+        bean.onCollide("plataforms", () => {
+            if(!bean.isGrounded()){
+                bean.play("idle")
+            }
+        })
+
         wait(rand(1, 2), () => {
             if(score < pointsToFinsh.level1){
                 spawnTreeSide()
@@ -216,6 +241,7 @@ scene("game", () => {
     /*Start scoore */
     bean.onCollide("plataforms", () => {
         if(!score) {
+            if(bean.isGrounded()) bean.play("idle")
             addKaboom(plataformStart.pos);
             destroy(plataformStart)
             loop(1, () => {
@@ -226,6 +252,7 @@ scene("game", () => {
 
     /*Wim vlidation ------------------------ */
     bean.onCollide("finshPlataform", () => {
+        bean.play("idle")
         wait(1, () => {
             go("win")
         })

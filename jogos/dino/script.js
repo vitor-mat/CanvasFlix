@@ -8,20 +8,28 @@ function elements(){
     }
 }
 
-function creacteCharacter(){
+function creacteCharacter(y){
     
-    const { ctx, canvas } = elements();
+    const { ctx } = elements();
     
-    const height = 10
-    const y = 150 - height;
-    
-    console.log(y)
+    const height = 15;
+    const width = 10; 
+    const x = 0;
 
     ctx.fillStyle = "red";
-    ctx.fillRect(0, y, height, 15)
+    ctx.fillRect(x, y, width, height)
+}
 
+function moveCharacter(){
+    update(120)
+}
+
+function update(y = 140){
+    interval = setInterval(creacteCharacter(y), 20);
 }
 
 (function startGame(){
-    creacteCharacter()
+    update()
 })()
+
+document.addEventListener("click", moveCharacter)
