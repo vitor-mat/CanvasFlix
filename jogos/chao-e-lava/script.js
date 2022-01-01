@@ -11,8 +11,13 @@
 8 - LOSE VALIDATION
 */
 
+var altura = window. screen. height;
+var largura = window. screen. width;
+
 const { debug } = kaboom({
     background: [0, 255, 255],
+    width: largura,
+    height: 750
 })
 
 const pointsToFinsh = {
@@ -36,9 +41,20 @@ loadSpriteAtlas("sprites/ninja/right/stand/ninja_stand.png", {
     },
 })
 loadSprite("tree-top-image", "sprites/tree_top.png")
-loadSprite("lava-bottom-image", "sprites/lava_bottom.png")
-loadSprite("lava-left-image", "sprites/lava_left.png")
-loadSprite("vucao", "sprites/vucao.png")
+loadSpriteAtlas("sprites/lava_sprite.png",{
+    "lava":{
+        x: 0,
+        y: 0,
+        width: 150,
+        height: 50,
+        sliceX: 3,
+        anims: {
+            side: { from: 1, to: 1, loop: true },
+            bottom: { from: 1, to: 1, loop: false},
+            diagonal: { from: 2, to: 2, loop: false},
+        },
+    }
+})
 
 let validation = true
 
@@ -54,14 +70,62 @@ scene("menu", () => {
 })
 
 
+
+let lavabottom = "-"
+
+function makeLavaBottom(){
+    let maxSprites = (largura/50).toFixed(0)
+    for(let i = 0; i < maxSprites; i++){
+        lavabottom += "-"
+    }
+}
+
+makeLavaBottom()
+
 /*ON GAME ------------------------------------------------------------ */
 scene("game", () => {
 
-    add([
-        sprite("vucao"),
-        pos(0, 0),
-        z(-500)
-    ])
+    addLevel([
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        "=                 ",
+        `*${lavabottom}`,
+    ], {
+        // define the size of each block
+        width: 50,
+        height: 50,
+        // define what each symbol means, by a function returning a component list (what will be passed to add())
+        "=": () => [
+            sprite("lava", { frame: 1}),
+            area(),
+            z(1000),
+            "lava"
+        ],
+        "-": () => [
+            sprite("lava", { frame: 0}),
+            area(),
+            z(1000),
+            "lava"
+        ],
+        "*": () => [
+            sprite("lava", { frame: 2}),
+            area(),
+            z(1000),
+            "lava"
+        ]
+    })
+
 
     /*Configurações do personagem */
     gravity(2400);
@@ -135,9 +199,6 @@ scene("game", () => {
         "resume",
     ])
 
-    timer(3, () => {
-        debug.log("ola mundo")
-    })
 
     function spawnTreeSide() {
         add([
@@ -169,25 +230,7 @@ scene("game", () => {
 
 
 
-    /*Configuração da lava bottona--------------------------------------- */
-    add([
-        sprite("lava-bottom-image"),
-        pos(0, height() - 48), ,
-        area(),
-        solid(),
-        z(1000),
-        "lava-bottom",
-    ])
 
-
-    /*lava left----------------------*/
-    add([
-        sprite("lava-left-image"),
-        pos(0, 0),
-        area(),
-        z(1000),
-        "lava-left",
-    ])
 
     /*SCORE --------------------------------------------------- */
 
@@ -226,17 +269,12 @@ scene("game", () => {
 
     /*LOSE VALIDATION--------------------------------------- */
 
-    bean.onCollide("lava-bottom", () => {
+    bean.onCollide("lava", () => {
         addKaboom(bean.pos);
-        shake();
-        go("lose"); // go to "lose" scene here
-    });
+        destroy(bean)
+        go("lose")
+    })
 
-    bean.onCollide("lava-left", () => {
-        addKaboom(bean.pos);
-        shake();
-        go("lose"); // go to "lose" scene here
-    });
 
     /*Start scoore */
     bean.onCollide("plataforms", () => {
