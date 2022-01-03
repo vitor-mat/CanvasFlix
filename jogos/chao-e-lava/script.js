@@ -24,19 +24,30 @@ const pointsToFinsh = {
     level1: 50
 }
 
-const pause = {}
+const charcaterDetails = {
+    idle: "idleRight",
+    jump: "jumpRight",
+    crouched: "crouchedRight"
+}
 
 
-loadSpriteAtlas("sprites/ninja/right/stand/ninja_stand.png", {
+loadSpriteAtlas("sprites/ninja_sprite.png", {
     "bean": {
         x: 0,
         y: 0,
-        width: 88,
-        height: 60,
-        sliceX: 2,
+        width: 264,
+        height: 180,
+        sliceX: 6,
+        sliceY: 3,
         anims: {
-            idle: { from: 0, to: 1, loop: true },
-            jump: { from: 0, to: 0, loop: false}
+            idleRight: { from: 0, to: 1, loop: true },
+            idleLeft: { from: 2, to: 3, loop: true },
+            jumpRight: { from: 0, to: 0, loop: false},
+            jumpLeft: { from: 2, to: 2, loop: false},
+            runRight: { from: 4, to: 9, loop: true},
+            runLeft: { from: 10, to: 15, loop: true},
+            crouchedRight: { from: 1, to: 1, loop: false},
+            crouchedLeft: { from: 3, to: 3, loop: true},
         },
     },
 })
@@ -138,7 +149,7 @@ scene("game", () => {
         z(10000)
     ])
 
-    bean.play("idle")
+    bean.play(charcaterDetails.idle)
 
     const moveForce = 400
     const jumpForce = 800
@@ -148,16 +159,35 @@ scene("game", () => {
     onKeyPress("up", () => {
         if (bean.isGrounded()) {
             bean.jump(jumpForce);
-            bean.play("jump")
+            bean.play(charcaterDetails.jump)
         }
     })
 
+    onKeyPress("down", () => {
+        if (bean.isGrounded()) {
+            bean.play(charcaterDetails.crouched)
+        }
+    })
+
+
     onKeyDown("left", () => {
         bean.move(-moveForce, 0)
+        charcaterDetails.idle = "idleLeft"
+        charcaterDetails.jump = "jumpLeft"
+        charcaterDetails.crouched = "crouchedLeft"
+        bean.play("runLeft")
     })
 
     onKeyDown("right", () => {
         bean.move(moveForce, 0)
+        charcaterDetails.idle = "idleRight"
+        charcaterDetails.jump = "jumpRight"
+        charcaterDetails.crouched = "crouchedRight"
+        bean.play("runRight")
+    })
+
+    onKeyRelease(["up", "right", "left", "down"], () => {
+        bean.play(charcaterDetails.idle)
     })
 
     /*Plataforma de inicio------------------ */
@@ -173,7 +203,7 @@ scene("game", () => {
 
     bean.onCollide("plataform-start", () => {
         if(!bean.isGrounded()){
-            bean.play("idle")
+            bean.play(charcaterDetails.idle)
         }
     })
 
@@ -215,7 +245,7 @@ scene("game", () => {
 
         bean.onCollide("plataforms", () => {
             if(!bean.isGrounded()){
-                bean.play("idle")
+                bean.play(charcaterDetails.idle)
             }
         })
 
