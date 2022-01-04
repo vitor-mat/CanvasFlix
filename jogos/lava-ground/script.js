@@ -191,6 +191,10 @@ scene("game", () => {
     onKeyRelease(["up", "right", "left", "down"], () => {
         bean.play(charcaterDetails.idle)
     })
+    
+    bean.action(() => {
+        bean.pushOutAll()
+    })
 
     /*Plataforma de inicio------------------ */
     const plataformStart = add([
@@ -244,6 +248,7 @@ scene("game", () => {
             move(LEFT, 150),
             "plataforms", // add a tag here
         ]);
+
 
         bean.onCollide("plataforms", () => {
             if(!bean.isGrounded()){
