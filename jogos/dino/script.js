@@ -1,31 +1,60 @@
-/*
------SUMÁRIO----------
+let altura = window. screen. height - 140;
+let largura = window. screen. width;
 
-1 - PRÉGAME
-2 - ON GAME
-3 - CONFIGURAÇÕES DO PERSONAGEM
-4 - CONFIGURAÇÃO DA lava bottonA
-5 - ENYME 1
-6 - ENYME 2
-7 - SCORE
-8 - LOSE VALIDATION
-*/
-
-const { debug } = kaboom({
+const { canvas } = kaboom({
     background: [0, 255, 255],
+    width: largura,
+    height: 750
 })
+
+document.querySelector("#canvas-container").appendChild(canvas)
 
 const pointsToFinsh = {
     level1: 50
 }
 
-const pause = {}
+const charcaterDetails = {
+    idle: "idleRight",
+    jump: "jumpRight",
+    crouched: "crouchedRight"
+}
 
-loadSprite("bean", "sprites/pac.png")
-loadSprite("tree-top-image", "sprites/tree_top.png")
-loadSprite("lava-bottom-image", "sprites/lava_bottom.png")
-loadSprite("lava-left-image", "sprites/lava_left.png")
-loadSprite("vucao", "sprites/vucao.png")
+
+loadSpriteAtlas("sprites/dino_sprite.png", {
+    "dino": {
+        x: 0,
+        y: 0,
+        width: 360,
+        height: 144,
+        sliceX: 5,
+        sliceY: 2,
+        anims: {
+            idleRight: { from: 0, to: 1, loop: true },
+            idleLeft: { from: 5, to: 6, loop: true },
+            jumpRight: { from: 4, to: 4, loop: false},
+            jumpLeft: { from: 9, to: 9, loop: false},
+            runRight: { from: 1, to: 3, loop: true},
+            runLeft: { from: 6, to: 8, loop: true},
+            crouchedRight: { from: 1, to: 1, loop: false},
+            crouchedLeft: { from: 6, to: 6, loop: true},
+        },
+    },
+})
+
+loadSpriteAtlas("sprites/meteor_sprite.png",{
+    "meteorSprite":{
+        x: 0,
+        y: 0,
+        width: 80,
+        height: 50,
+        sliceX: 2,
+        anims:{
+            idle:{from: 0, to: 1, loop: true}
+        }
+    }
+})
+
+loadSprite("groundSprite", "sprites/ground.png")
 
 let validation = true
 
@@ -41,61 +70,158 @@ scene("menu", () => {
 })
 
 
+
+let groundBottom = "---"
+
+function makegroundBottom(){
+    let maxSprites = (largura/50).toFixed(0)
+    for(let i = 0; i < maxSprites; i++){
+        groundBottom += "-"
+    }
+}
+
+makegroundBottom()
+
+let groundWall = "- "
+
+function makegroundWall(){
+    let maxSprites = (largura/50).toFixed(0)
+    for(let i = 0; i < maxSprites; i++){
+        groundWall += " "
+    }
+    groundWall += "-"
+}
+
+makegroundWall()
+
 /*ON GAME ------------------------------------------------------------ */
 scene("game", () => {
 
-    add([
-        sprite("vucao"),
-        pos(0, 0),
-        z(-500)
-    ])
+    addLevel([
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundWall}`,
+        `${groundBottom}`,
+    ], {
+        // define the size of each block
+        width: 50,
+        height: 50,
+        // define what each symbol means, by a function returning a component list (what will be passed to add())
+        "-": () => [
+            sprite("groundSprite", { frame: 0}),
+            area(),
+            solid(),
+            z(1000),
+            "ground"
+        ]
+    })
+
+    camPos(center().x+60, center().y)
 
     /*Configurações do personagem */
     gravity(2400);
 
-    const bean = add([
-        sprite("bean"),
-        pos(150, 40),
+    const dino = add([
+        sprite("dino"),
+        pos(150, 55),
         area(),
         body(),
         z(10000),
         "player"
     ])
 
+    dino.play(charcaterDetails.idle)
+
     const moveForce = 400
     const jumpForce = 800
-
-    fullscreen(!isFullscreen())
-
     
 
     // .jump() when "space" key is pressed
     onKeyPress("up", () => {
-        if (bean.isGrounded()) {
-            bean.jump(jumpForce);
+        if (dino.isGrounded()) {
+            dino.jump(jumpForce);
+            dino.play(charcaterDetails.jump)
         }
     })
 
+    onKeyPress("down", () => {
+        if (dino.isGrounded()) {
+            dino.play(charcaterDetails.crouched)
+        }
+    })
+
+
     onKeyDown("left", () => {
-        bean.move(-moveForce, 0)
+        dino.move(-moveForce, 0)
     })
 
     onKeyDown("right", () => {
-        bean.move(moveForce, 0)
+       dino.move(moveForce, 0)
     })
 
-    /*Plataforma de inicio------------------ */
-    const plataformStart = add([
-        rect(150, 20),
-        pos(100, height() - 300),
-        outline(4),
-        area(),
-        solid(),
-        color(79, 79, 79),
-        "plataform-start",
-    ])
+
+    onKeyPress("left", () => {
+        charcaterDetails.idle = "idleLeft"
+        charcaterDetails.jump = "jumpLeft"
+        charcaterDetails.crouched = "crouchedLeft"
+        dino.play("runLeft")
+    })
+
+    onKeyPress("right", () => {
+        charcaterDetails.idle = "idleRight"
+        charcaterDetails.jump = "jumpRight"
+        charcaterDetails.crouched = "crouchedRight"
+        dino.play("runRight")
+    })
+
+    onKeyRelease(["up", "right", "left", "down"], () => {
+        dino.play(charcaterDetails.idle)
+    })
+    
+    dino.action(() => {
+        dino.pushOutAll()
+    })
 
     /* ENYME 1 --------------------------------------------------- */
+
+function meteorGenerator(){
+    const meteor = add([
+        sprite("meteorSprite", {anim: "idle"}),
+        pos(rand(0, largura), 50),
+        area(),
+        solid(),
+        move(DOWN, 500),
+        color(250,128,114),
+        "meteor",
+    ])
+
+    meteor.onCollide("ground", () => {
+        destroy(meteor)
+    })
+
+    meteor.onCollide("player", () => {
+        addKaboom(dino.pos)
+        destroy(dino)
+        go("lose")
+    })
+
+    wait(rand(.1, .5), () => {
+        meteorGenerator()
+    })
+}
+
+meteorGenerator()
 
     let score = 0;
     const scoreLabel = add([
@@ -117,118 +243,25 @@ scene("game", () => {
         "resume",
     ])
 
-    timer(3, () => {
-        debug.log("ola mundo")
-    })
-
-    function spawnTreeSide() {
-        add([
-            rect(48, rand(24, 64)),
-            area(),
-            solid(),
-            outline(4),
-            pos(width(), height() - 48),
-            origin("botleft"),
-            color(79, 79, 79),
-            move(LEFT, 150),
-            "plataforms", // add a tag here
-        ]);
-        wait(rand(1, 2), () => {
-            if(score < pointsToFinsh.level1){
-                spawnTreeSide()
-            }
-        });
-    }
-
-    spawnTreeSide()
-
-
-
-    /*Configuração da lava bottona--------------------------------------- */
-    add([
-        sprite("lava-bottom-image"),
-        pos(0, height() - 48), ,
-        area(),
-        solid(),
-        z(1000),
-        "lava-bottom",
-    ])
-
-
-    /*lava left----------------------*/
-    add([
-        sprite("lava-left-image"),
-        pos(0, 0),
-        area(),
-        z(1000),
-        "lava-left",
-    ])
-
     /*SCORE --------------------------------------------------- */
-
-    let finshPlataform, finshPlataformText
 
     const scoreCount = () => {
         score++
         scoreLabel.text = score
-
-
-        if(score == pointsToFinsh.level1){
-            finshPlataform = add([
-                rect(200, 40),
-                pos(width(), height()-100),
-                outline(4),
-                area(),
-                solid(),
-                color(0, 250, 154),
-                "finshPlataform",
-            ])
-            finshPlataformText = add([
-                text("Chegada",{
-                    size: 24
-                }),
-                color(255, 255, 255),
-                pos(width()+10, height()-200),
-                outline(1),
-            ])
-            onUpdate(() => {
-                finshPlataform.moveTo(width()-150, height()-100, 120)
-                finshPlataformText.moveTo(width()-150, height()-200, 120)
-            })
+        if(score == 50){
+            go("win")
         }
-
     }
 
-    /*LOSE VALIDATION--------------------------------------- */
-
-    bean.onCollide("lava-bottom", () => {
-        addKaboom(bean.pos);
-        shake();
-        go("lose"); // go to "lose" scene here
-    });
-
-    bean.onCollide("lava-left", () => {
-        addKaboom(bean.pos);
-        shake();
-        go("lose"); // go to "lose" scene here
-    });
 
     /*Start scoore */
-    bean.onCollide("plataforms", () => {
+    dino.onCollide("ground", () => {
         if(!score) {
-            addKaboom(plataformStart.pos);
-            destroy(plataformStart)
+            if(dino.isGrounded()) dino.play("idle")
             loop(1, () => {
                 if(score < pointsToFinsh.level1) scoreCount()
             })
         }
-    })
-
-    /*Wim vlidation ------------------------ */
-    bean.onCollide("finshPlataform", () => {
-        wait(1, () => {
-            go("win")
-        })
     })
 
 })
@@ -241,6 +274,16 @@ scene("win", () => {
         pos(center()),
         origin("center")
     ])
+
+    
+    add([
+        text("Obrigado por salvar o Dino", {
+            size: "32"
+        }),
+        pos(center().x, center().y + 60),
+        origin("center"),
+    ])
+
 })
 
 scene("lose", () => {
