@@ -11,8 +11,8 @@
 8 - LOSE VALIDATION
 */
 
-var altura = window. screen. height;
-var largura = window. screen. width;
+let altura = window. screen. height - 140;
+let largura = window. screen. width;
 
 const { canvas } = kaboom({
     background: [0, 255, 255],
@@ -20,7 +20,7 @@ const { canvas } = kaboom({
     height: 750
 })
 
-document.querySelector(".container").appendChild(canvas)
+document.querySelector("#canvas-container").appendChild(canvas)
 
 const pointsToFinsh = {
     level1: 50
