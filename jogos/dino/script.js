@@ -1,10 +1,13 @@
 let altura = window. screen. height - 140;
 let largura = window. screen. width;
 
+const funcao = () => console.log(altura)
+funcao()
+
 const { canvas } = kaboom({
     background: [0, 255, 255],
     width: largura,
-    height: 750
+    height: 650
 })
 
 document.querySelector("#canvas-container").appendChild(canvas)
@@ -94,26 +97,30 @@ function makegroundWall(){
 
 makegroundWall()
 
+function makeLevelHight(){
+
+}
+
+const arr = [
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundWall}`,
+    `${groundBottom}`,
+]
+
 /*ON GAME ------------------------------------------------------------ */
 scene("game", () => {
 
-    addLevel([
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundWall}`,
-        `${groundBottom}`,
-    ], {
+    addLevel(arr, {
         // define the size of each block
         width: 50,
         height: 50,
