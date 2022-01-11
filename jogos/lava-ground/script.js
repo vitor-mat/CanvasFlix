@@ -140,6 +140,25 @@ scene("game", () => {
     })
 
 
+    const pauseElement = add([
+        text("paused"),
+        pos(center()),
+        origin("center"),
+        opacity(0),
+        z(1002),
+        fixed()
+    ])
+
+    const pauseBackground = add([
+        rect(width(), height()),
+        pos(center()),
+        origin("center"),
+        opacity(0),
+        z(1001),
+        fixed(),
+        color(255,255,255)
+    ])
+
     /*Configurações do personagem */
     gravity(2400);
 
@@ -159,37 +178,37 @@ scene("game", () => {
 
     // .jump() when "space" key is pressed
     onKeyPress("up", () => {
-        if (bean.isGrounded()) {
+        if (bean.isGrounded() && !k.debug.paused) {
             bean.jump(jumpForce);
             bean.play(charcaterDetails.jump)
         }
     })
 
     onKeyPress("down", () => {
-        if (bean.isGrounded()) {
+        if (bean.isGrounded() && !k.debug.paused) {
             bean.play(charcaterDetails.crouched)
         }
     })
 
 
     onKeyDown("left", () => {
-        bean.move(-moveForce, 0)
+        if (!k.debug.paused){bean.move(-moveForce, 0)
         charcaterDetails.idle = "idleLeft"
         charcaterDetails.jump = "jumpLeft"
         charcaterDetails.crouched = "crouchedLeft"
-        bean.play("runLeft")
+        bean.play("runLeft")}
     })
 
     onKeyDown("right", () => {
-        bean.move(moveForce, 0)
+        if (!k.debug.paused){bean.move(moveForce, 0)
         charcaterDetails.idle = "idleRight"
         charcaterDetails.jump = "jumpRight"
         charcaterDetails.crouched = "crouchedRight"
-        bean.play("runRight")
+        bean.play("runRight")}
     })
 
     onKeyRelease(["up", "right", "left", "down"], () => {
-        bean.play(charcaterDetails.idle)
+        if (!k.debug.paused) bean.play(charcaterDetails.idle)
     })
     
     bean.action(() => {
@@ -320,7 +339,19 @@ scene("game", () => {
             addKaboom(plataformStart.pos);
             destroy(plataformStart)
             loop(1, () => {
-                if(score < pointsToFinsh.level1) scoreCount()
+                if(score < pointsToFinsh.level1){
+                    scoreCount()
+                }
+                if (!isFullscreen()) {
+                    k.debug.paused = true
+                    pauseElement.opacity = 1
+                    pauseBackground.opacity = 1
+                }
+
+                if (isFullscreen() && pauseElement.opacity == 1) {
+                    pauseElement.opacity = 0
+                    pauseBackground.opacity = 0
+                }
             })
         }
     })
@@ -369,9 +400,23 @@ go("menu")
 
 /*RUN GAME------------------------------------------------------------ */
 
-document.addEventListener('click', (e) => {
+/*RUN GAME------------------------------------------------------------ */
+
+const handleStart = (e) => {
+    if (!isFullscreen()) {
+        fullscreen(!isFullscreen())
+        k.debug.paused = false;
+    }
     if (validation) {
         go("game")
         validation = false
     }
+}
+
+k.canvas.addEventListener('click', (e) => {
+    handleStart(e)
+})
+
+k.canvas.addEventListener('keydown', (e) => {
+    if(e.key == "Enter" || e.key == " ") handleStart(e)
 })
