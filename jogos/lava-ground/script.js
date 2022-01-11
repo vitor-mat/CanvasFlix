@@ -14,13 +14,13 @@
 let altura = window. screen. height - 140;
 let largura = window. screen. width;
 
-const { canvas } = kaboom({
-    background: [0, 255, 255],
+const k = kaboom({
+    background: backgroundColor,
     width: largura,
-    height: 750
+    height: 650
 })
 
-document.querySelector("#canvas-container").appendChild(canvas)
+document.querySelector("#canvas-container").appendChild(k.canvas)
 
 const pointsToFinsh = {
     level1: 50
