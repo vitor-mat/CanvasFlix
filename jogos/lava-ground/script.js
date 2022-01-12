@@ -158,37 +158,37 @@ scene("game", () => {
 
     // .jump() when "space" key is pressed
     onKeyPress("up", () => {
-        if (bean.isGrounded()) {
+        if (bean.isGrounded() && !k.debug.paused) {
             bean.jump(jumpForce);
             bean.play(charcaterDetails.jump)
         }
     })
 
     onKeyPress("down", () => {
-        if (bean.isGrounded()) {
+        if (bean.isGrounded() && !k.debug.paused) {
             bean.play(charcaterDetails.crouched)
         }
     })
 
 
     onKeyDown("left", () => {
-        bean.move(-moveForce, 0)
+        if(!k.debug.paused){bean.move(-moveForce, 0)
         charcaterDetails.idle = "idleLeft"
         charcaterDetails.jump = "jumpLeft"
         charcaterDetails.crouched = "crouchedLeft"
-        bean.play("runLeft")
+        bean.play("runLeft")}
     })
 
     onKeyDown("right", () => {
-        bean.move(moveForce, 0)
+        if(!k.debug.paused){bean.move(moveForce, 0)
         charcaterDetails.idle = "idleRight"
         charcaterDetails.jump = "jumpRight"
         charcaterDetails.crouched = "crouchedRight"
-        bean.play("runRight")
+        bean.play("runRight")}
     })
 
     onKeyRelease(["up", "right", "left", "down"], () => {
-        bean.play(charcaterDetails.idle)
+        if(!k.debug.paused) bean.play(charcaterDetails.idle)
     })
     
     bean.action(() => {
