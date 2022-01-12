@@ -287,7 +287,7 @@ scene("game", () => {
         });
 
         onUpdate(() => {
-            if(plataforms.pos.x < 100){
+            if(plataforms.pos.x < 0){
                 destroy(plataforms)
             }
         })
@@ -352,10 +352,7 @@ scene("game", () => {
 
     /*Wim vlidation ------------------------ */
     bean.onCollide("finshPlataform", () => {
-        bean.play("idle")
-        wait(1, () => {
-            go("win")
-        })
+        wait(.5,() =>  go("win"))
     })
 
 })
