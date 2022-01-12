@@ -261,7 +261,7 @@ scene("game", () => {
 
 
     function spawnTreeSide() {
-        add([
+        const plataforms = add([
             rect(48, rand(24, 64)),
             area(),
             solid(),
@@ -285,6 +285,12 @@ scene("game", () => {
                 spawnTreeSide()
             }
         });
+
+        onUpdate(() => {
+            if(plataforms.pos.x < 100){
+                destroy(plataforms)
+            }
+        })
     }
 
     spawnTreeSide()
