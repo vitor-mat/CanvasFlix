@@ -120,24 +120,49 @@ scene("game", () => {
         // define what each symbol means, by a function returning a component list (what will be passed to add())
         "=": () => [
             sprite("lava", { frame: 1}),
-            area(),
             z(1000),
-            "lava"
         ],
         "-": () => [
             sprite("lava", { frame: 0}),
-            area(),
             z(1000),
-            "lava"
         ],
         "*": () => [
             sprite("lava", { frame: 2}),
-            area(),
             z(1000),
             "lava"
         ]
     })
 
+    const temportisador = setInterval(() => {
+        if(!isFullscreen()){
+            k.debug.paused = true
+            pauseElement.opacity = 1
+            pauseBackground.opacity = 1
+
+        }else{
+            pauseElement.opacity = 0
+            pauseBackground.opacity = 0
+        }
+    }, 1000)
+
+    const pauseElement = add([
+        text("paused"),
+        pos(center()),
+        origin("center"),
+        opacity(0),
+        z(1003),
+        fixed()
+    ])
+
+    const pauseBackground = add([
+        rect(width(), height()),
+        pos(center()),
+        origin("center"),
+        opacity(0),
+        z(1002),
+        fixed(),
+        color(255,255,255)
+    ])
 
     /*Configurações do personagem */
     gravity(2400);
@@ -147,7 +172,7 @@ scene("game", () => {
         pos(150, 40),
         area(),
         body(),
-        z(10000)
+        z(1001)
     ])
 
     bean.play(charcaterDetails.idle)
@@ -265,7 +290,12 @@ scene("game", () => {
     spawnTreeSide()
 
 
+    onUpdate(() => {
 
+        if(bean.pos.y > height()  || bean.pos.x < 50){
+            go("lose")
+        }
+    })
 
 
     /*SCORE --------------------------------------------------- */
@@ -303,24 +333,6 @@ scene("game", () => {
 
     }
 
-    /*LOSE VALIDATION--------------------------------------- */
-    bean.onCollide("lava", () => {
-        addKaboom(bean.pos);
-        destroy(bean)
-        go("lose")
-    })
-
-    /*Start scoore */
-    bean.onCollide("plataform-start", () => {
-        loop(1, () => {
-            if(!isFullscreen()){
-                k.debug.paused = true
-            }
-            if(score < pointsToFinsh.level1 && score !== 0){
-                scoreCount()
-            }
-        })
-    })
 
     bean.onCollide("plataforms", () => {
         if(!score) {
@@ -328,6 +340,7 @@ scene("game", () => {
             addKaboom(plataformStart.pos);
             destroy(plataformStart)
             scoreCount()
+            loop(1, () => scoreCount())
         }
     })
 
