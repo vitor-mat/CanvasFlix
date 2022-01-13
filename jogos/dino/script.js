@@ -12,8 +12,8 @@ const k = kaboom({
 
 document.querySelector("#canvas-container").appendChild(k.canvas)
 
-const pointsToFinsh = {
-    level1: 50
+const counterToFinsh = {
+    level1: 30
 }
 
 const charcaterDetails = {
@@ -278,21 +278,16 @@ function meteorGuidedGenerator(){
         })
 }
 
-wait(1, () => {
-    meteorGenerator()
-    meteorGuidedGenerator()
-})
-
-    let score = 0;
-    const scoreLabel = add([
-        text(score),
+    let counter = counterToFinsh.level1
+    const counterLabel = add([
+        text(counter),
         pos(50, 24),
         area(),
-        "scoreTag"
+        "counterTag"
     ])
 
     let levelInfo = add([
-        text("Level 1 - Alcance 50 pontos",{
+        text("Level 1 - Corra e salve-se",{
             size: width()*0.03
         }),
         pos(center().x, 70),
@@ -303,34 +298,31 @@ wait(1, () => {
         "resume",
     ])
 
-    /*SCORE --------------------------------------------------- */
+    /*counter --------------------------------------------------- */
 
-    const scoreCount = () => {
-        score++
-        scoreLabel.text = score
-        if(score == 50){
-            go("win")
+    const counterCount = () => {
+        counter--
+        counterLabel.text = counter
+        if(counter == 0){
+            go("lose")
         }
     }
 
-
-    /*Start scoore */
-    dino.onCollide("ground", () => {
-        if(!score) {
-            if(dino.isGrounded()) dino.play("idle")
-            loop(1, () => {
-                if(score < pointsToFinsh.level1) scoreCount()
-
-                if(!isFullscreen()){
-                    k.debug.paused = true
-                    pauseElement.opacity = 1
-                    pauseBackground.opacity = 1
-                }else{
-                    pauseElement.opacity = 0
-                    pauseBackground.opacity = 0
-                }
-            })
-        }
+    wait(1, () => {
+        meteorGenerator()
+        meteorGuidedGenerator()
+        loop(1, () => {
+            if(counter > 0) counterCount()
+    
+            if(!isFullscreen()){
+                k.debug.paused = true
+                pauseElement.opacity = 1
+                pauseBackground.opacity = 1
+            }else{
+                pauseElement.opacity = 0
+                pauseBackground.opacity = 0
+            }
+        })
     })
 
 })
