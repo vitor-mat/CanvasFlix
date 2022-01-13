@@ -163,7 +163,7 @@ scene("game", () => {
         pos(150, 55),
         area(),
         body(),
-        z(10000),
+        z(1000),
         "player"
     ])
 
