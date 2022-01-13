@@ -156,44 +156,48 @@ scene("game", () => {
 
     // .jump() when "space" key is pressed
     onKeyPress("up", () => {
-        if (dino.isGrounded()) {
+        if (dino.isGrounded() && !k.debug.paused) {
             dino.jump(jumpForce);
             dino.play(charcaterDetails.jump)
         }
     })
 
     onKeyPress("down", () => {
-        if (dino.isGrounded()) {
+        if (dino.isGrounded() && !k.debug.paused) {
             dino.play(charcaterDetails.crouched)
         }
     })
 
 
     onKeyDown("left", () => {
-        dino.move(-moveForce, 0)
+        if(!k.debug.paused) dino.move(-moveForce, 0)
     })
 
     onKeyDown("right", () => {
-       dino.move(moveForce, 0)
+       if(!k.debug.paused) dino.move(moveForce, 0)
     })
 
 
     onKeyPress("left", () => {
-        charcaterDetails.idle = "idleLeft"
-        charcaterDetails.jump = "jumpLeft"
-        charcaterDetails.crouched = "crouchedLeft"
-        dino.play("runLeft")
+        if(!k.debug.paused){
+            charcaterDetails.idle = "idleLeft"
+            charcaterDetails.jump = "jumpLeft"
+            charcaterDetails.crouched = "crouchedLeft"
+            dino.play("runLeft")
+        }
     })
 
     onKeyPress("right", () => {
-        charcaterDetails.idle = "idleRight"
-        charcaterDetails.jump = "jumpRight"
-        charcaterDetails.crouched = "crouchedRight"
-        dino.play("runRight")
+        if(!k.debug.paused){
+            charcaterDetails.idle = "idleRight"
+            charcaterDetails.jump = "jumpRight"
+            charcaterDetails.crouched = "crouchedRight"
+            dino.play("runRight")
+        }
     })
 
     onKeyRelease(["up", "right", "left", "down"], () => {
-        dino.play(charcaterDetails.idle)
+        if(!k.debug.paused) dino.play(charcaterDetails.idle)
     })
     
     dino.action(() => {
