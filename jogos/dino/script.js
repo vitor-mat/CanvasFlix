@@ -248,8 +248,6 @@ function meteorGenerator(){
     })
 }
 
-meteorGenerator()
-
     let score = 0;
     const scoreLabel = add([
         text(score),
