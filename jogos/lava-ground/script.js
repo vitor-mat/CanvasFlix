@@ -22,7 +22,7 @@ const k = kaboom({
 document.querySelector("#canvas-container").appendChild(k.canvas)
 
 const pointsToFinsh = {
-    level1: 10
+    level1: 50
 }
 
 const charcaterDetails = {
@@ -369,7 +369,8 @@ scene("win", () => {
         pos(center()),
         origin("center")
     ])
-    
+
+        
     add([
         text("Click here to restart the game", {
             size: "32"
