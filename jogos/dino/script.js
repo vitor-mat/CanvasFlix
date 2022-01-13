@@ -134,6 +134,25 @@ scene("game", () => {
         ]
     })
 
+    const pauseElement = add([
+        text("paused"),
+        pos(center()),
+        origin("center"),
+        opacity(0),
+        z(1003),
+        fixed()
+    ])
+
+    const pauseBackground = add([
+        rect(width(), height()),
+        pos(center()),
+        origin("center"),
+        opacity(0),
+        z(1002),
+        fixed(),
+        color(255,255,255)
+    ])
+
     camPos(center().x+60, center().y)
 
     /*Configurações do personagem */
@@ -302,7 +321,14 @@ wait(1, () => {
             loop(1, () => {
                 if(score < pointsToFinsh.level1) scoreCount()
 
-                if(!isFullscreen()) k.debug.paused = true
+                if(!isFullscreen()){
+                    k.debug.paused = true
+                    pauseElement.opacity = 1
+                    pauseBackground.opacity = 1
+                }else{
+                    pauseElement.opacity = 0
+                    pauseBackground.opacity = 0
+                }
             })
         }
     })
