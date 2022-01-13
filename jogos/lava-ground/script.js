@@ -248,7 +248,7 @@ scene("game", () => {
     ])
 
     let levelInfo = add([
-        text("Level 1 - Alcance 50 pontos",{
+        text(`Level 1 - Alcance ${pointsToFinsh.level1} pontos`,{
             size: width()*0.03
         }),
         pos(center().x, 70),
@@ -417,4 +417,8 @@ const handleStart = (e) => {
 
 document.addEventListener('click', (e) => {
     handleStart(e)
+})
+
+document.addEventListener('keydown', (e) => {
+    if(e.key == "Enter" || e.key == " ") handleStart(e)
 })
