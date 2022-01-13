@@ -72,49 +72,20 @@ scene("menu", () => {
     ])
 })
 
-
-
-let groundBottom = "---"
-
-function makegroundBottom(){
-    let maxSprites = (largura/50).toFixed(0)
-    for(let i = 0; i < maxSprites; i++){
-        groundBottom += "-"
-    }
-}
-
-makegroundBottom()
-
-let groundWall = "- "
-
-function makegroundWall(){
-    let maxSprites = (largura/50).toFixed(0)
-    for(let i = 0; i < maxSprites; i++){
-        groundWall += " "
-    }
-    groundWall += "-"
-}
-
-makegroundWall()
-
-function makeLevelHight(){
-
-}
-
 const arr = [
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundWall}`,
-    `${groundBottom}`,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `-                                                                                                                                         `,
+    `--------------------------------------------------------------------------------------------------------------------------------------------`,
 ]
 
 /*ON GAME ------------------------------------------------------------ */
@@ -153,8 +124,6 @@ scene("game", () => {
         color(255,255,255)
     ])
 
-    camPos(center().x+60, center().y)
-
     /*Configurações do personagem */
     gravity(2400);
 
@@ -166,6 +135,17 @@ scene("game", () => {
         z(1000),
         "player"
     ])
+
+
+    onUpdate(() => {
+        if(dino.pos.x < center().x){
+            camPos(center().x+70, center().y)
+        }else if(dino.pos.x > 6009){
+            camPos(6009, center().y)
+        }else{
+            camPos(dino.pos.x, center().y)
+        }
+    })
 
     dino.play(charcaterDetails.idle)
 
@@ -228,7 +208,7 @@ scene("game", () => {
 function meteorGenerator(){
     const meteor = add([
         sprite("meteorSprite", {anim: "idle"}),
-        pos(rand(0, largura), 50),
+        pos(rand(dino.pos.x-(largura/2), dino.pos.x+(largura/2)), 50),
         area(),
         solid(),
         move(DOWN, 500),
@@ -283,7 +263,8 @@ function meteorGuidedGenerator(){
         text(counter),
         pos(50, 24),
         area(),
-        "counterTag"
+        "counterTag",
+        fixed()
     ])
 
     let levelInfo = add([
@@ -293,7 +274,7 @@ function meteorGuidedGenerator(){
         pos(center().x, 70),
         origin("center"),
         z(1000),
-        area(),
+        fixed(),
         color(255, 255, 255),
         "resume",
     ])
@@ -323,7 +304,7 @@ function meteorGuidedGenerator(){
                 pauseBackground.opacity = 0
             }
         })
-    })
+    }) 
 
 })
 
