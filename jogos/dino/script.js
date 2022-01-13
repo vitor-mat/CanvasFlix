@@ -4,13 +4,13 @@ let largura = window. screen. width;
 const funcao = () => console.log(altura)
 funcao()
 
-const { canvas } = kaboom({
+const k = kaboom({
     background: [0, 255, 255],
     width: largura,
     height: 650
 })
 
-document.querySelector("#canvas-container").appendChild(canvas)
+document.querySelector("#canvas-container").appendChild(k.canvas)
 
 const pointsToFinsh = {
     level1: 50
@@ -213,6 +213,23 @@ function meteorGenerator(){
         "meteor",
     ])
 
+    meteor.onCollide("ground", () => {
+        destroy(meteor)
+    })
+
+    meteor.onCollide("player", () => {
+        addKaboom(dino.pos)
+        destroy(dino)
+        go("lose")
+    })
+
+    wait(rand(.5, .7), () => {
+        meteorGenerator()
+    })
+}
+
+function meteorGuidedGenerator(){
+
     const meteorGuided = add([
         sprite("meteorSprite", {anim: "idle"}),
         pos(dino.pos.x, 50),
@@ -223,30 +240,25 @@ function meteorGenerator(){
         "meteor",
     ])
 
-    meteor.onCollide("ground", () => {
-        destroy(meteor)
-    })
-    
     meteorGuided.onCollide("ground", () => {
         destroy(meteorGuided)
     })
-
-    meteor.onCollide("player", () => {
-        addKaboom(dino.pos)
-        destroy(dino)
-        go("lose")
-    })
-
+    
     meteorGuided.onCollide("player", () => {
         addKaboom(dino.pos)
         destroy(dino)
         go("lose")
     })
 
-    wait(rand(.1, .5), () => {
-        meteorGenerator()
-    })
+        wait(.7, () => {
+            meteorGuidedGenerator()
+        })
 }
+
+wait(1, () => {
+    meteorGenerator()
+    meteorGuidedGenerator()
+})
 
     let score = 0;
     const scoreLabel = add([
@@ -285,6 +297,8 @@ function meteorGenerator(){
             if(dino.isGrounded()) dino.play("idle")
             loop(1, () => {
                 if(score < pointsToFinsh.level1) scoreCount()
+
+                if(!isFullscreen()) k.debug.paused = true
             })
         }
     })
@@ -334,10 +348,17 @@ scene("lose", () => {
 go("menu")
 
 /*RUN GAME------------------------------------------------------------ */
-
-document.addEventListener('click', (e) => {
+const handleStart = (e) => {
+    if (!isFullscreen()) {
+        fullscreen(!isFullscreen())
+        k.debug.paused = false;
+    }
     if (validation) {
         go("game")
         validation = false
     }
+}
+
+document.addEventListener('click', (e) => {
+    handleStart(e)
 })
