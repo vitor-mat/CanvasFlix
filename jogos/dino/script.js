@@ -213,11 +213,31 @@ function meteorGenerator(){
         "meteor",
     ])
 
+    const meteorGuided = add([
+        sprite("meteorSprite", {anim: "idle"}),
+        pos(dino.pos.x, 50),
+        area(),
+        solid(),
+        move(DOWN, 500),
+        color(250,128,114),
+        "meteor",
+    ])
+
     meteor.onCollide("ground", () => {
         destroy(meteor)
     })
+    
+    meteorGuided.onCollide("ground", () => {
+        destroy(meteorGuided)
+    })
 
     meteor.onCollide("player", () => {
+        addKaboom(dino.pos)
+        destroy(dino)
+        go("lose")
+    })
+
+    meteorGuided.onCollide("player", () => {
         addKaboom(dino.pos)
         destroy(dino)
         go("lose")
