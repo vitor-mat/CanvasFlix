@@ -22,7 +22,7 @@ const k = kaboom({
 document.querySelector("#canvas-container").appendChild(k.canvas)
 
 const pointsToFinsh = {
-    level1: 50
+    level1: 10
 }
 
 const charcaterDetails = {
@@ -286,10 +286,12 @@ scene("game", () => {
             }
         });
 
-        onUpdate(() => {
-            if(plataforms.pos.x < 0){
-                destroy(plataforms)
-            }
+        bean.onCollide("plataformStar", () => {
+            onUpdate(() => {
+                if(plataforms.pos.x < 0){
+                    destroy(plataforms)
+                }
+            })
         })
     }
 
@@ -351,8 +353,10 @@ scene("game", () => {
     })
 
     /*Wim vlidation ------------------------ */
-    bean.onCollide("finshPlataform", () => {
-        wait(.5,() =>  go("win"))
+    onUpdate(() => {
+        if(bean.pos.x > width()-150){
+            go("win")
+        }
     })
 
 })
