@@ -369,6 +369,16 @@ scene("win", () => {
         pos(center()),
         origin("center")
     ])
+    
+    add([
+        text("Click here to restart the game", {
+            size: "32"
+        }),
+        pos(center().x, center().y + 60),
+        origin("center"),
+    ])
+    
+    validation = true;
 })
 
 scene("lose", () => {
