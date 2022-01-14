@@ -13,7 +13,7 @@ const k = kaboom({
 document.querySelector("#canvas-container").appendChild(k.canvas)
 
 const counterToFinsh = {
-    level1: 30
+    level1: 20
 }
 
 const charcaterDetails = {
@@ -368,6 +368,10 @@ const handleStart = (e) => {
     }
 }
 
-document.addEventListener('click', (e) => {
+k.canvas.addEventListener('click', (e) => {
     handleStart(e)
+})
+
+k.canvas.addEventListener('keydown', (e) => {
+    if(e.key == " " || e.key == "Enter") handleStart(e)
 })
