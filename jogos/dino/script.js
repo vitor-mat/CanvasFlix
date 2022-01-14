@@ -202,7 +202,13 @@ scene("game", () => {
     })
 
     onKeyRelease(["up", "right", "left", "down"], () => {
-        if(!k.debug.paused) dino.play(charcaterDetails.idle)
+        if(isKeyPressed("right") || isKeyDown("right")){
+            dino.play("runRight")
+        }else if(isKeyPressed("left") || isKeyDown("left")){
+            dino.play("runLeft")
+        }else{
+            dino.play(charcaterDetails.idle)
+        }
     })
     
     dino.action(() => {
