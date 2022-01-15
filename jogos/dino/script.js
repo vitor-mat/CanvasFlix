@@ -59,6 +59,8 @@ loadSpriteAtlas("sprites/meteor_sprite.png",{
 
 loadSprite("groundSprite", "sprites/ground.png")
 
+loadSprite("exit", "sprites/exit.png")
+
 let validation = true
 
 /*PRÉ GAME--------------------------------------------- */
@@ -84,7 +86,7 @@ const arr = [
     `-                                                                                                                                         `,
     `-                                                                                                                                         `,
     `-                                                                                                                                         `,
-    `-                                                                                                                                         `,
+    `-                                                                                                                                       # `,
     `------------   ----------------------   -----------   ---------------------   ------------------------------   -----------------------------`,
 ]
 
@@ -102,6 +104,9 @@ scene("game", () => {
             solid(),
             z(1000),
             "ground"
+        ],
+        "#": () => [
+            sprite("exit"),
         ]
     })
 
