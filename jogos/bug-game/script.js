@@ -209,7 +209,13 @@ scene("game", () => {
     })
 
     onKeyRelease(["up", "right", "left", "down"], () => {
-        if (!k.debug.paused) bugRock.play(charcaterDetails.idle) 
+        if(isKeyPressed("right") || isKeyDown("right")){
+            bugRock.play("runRight")
+        }else if(isKeyPressed("left") || isKeyDown("left")){
+            bugRock.play("runLeft")
+        }else{
+            bugRock.play(charcaterDetails.idle)
+        }
     })
 
     onKeyPress("left", () => {
