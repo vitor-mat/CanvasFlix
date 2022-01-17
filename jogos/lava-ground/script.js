@@ -290,6 +290,10 @@ scene("game", () => {
             if(plataforms.pos.x < 0){
                 destroy(plataforms)
             }
+
+            if(bean.pos.x > width()-190 && score >= pointsToFinsh.level1){
+                wait(1, () => go("win"))
+            }
         })
     }
 
@@ -349,13 +353,6 @@ scene("game", () => {
             loop(1, () => scoreCount())
         }
     })
-
-    /*Wim vlidation ------------------------ */
-        onUpdate(() => {
-            if(bean.pos.x > width()-150 && score == pointsToFinsh.level1){
-                go("win")
-            }
-        })
 
 })
 
