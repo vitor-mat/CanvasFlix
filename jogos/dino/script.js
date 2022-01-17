@@ -165,7 +165,7 @@ scene("game", () => {
     
 
     // .jump() when "space" key is pressed
-    onKeyPress("up", () => {
+    onKeyDown("up", () => {
         if (dino.isGrounded() && !k.debug.paused) {
             dino.jump(jumpForce);
             dino.play(charcaterDetails.jump)
@@ -306,6 +306,7 @@ function meteorGuidedGenerator(){
         }
     }
 
+
     wait(1, () => {
         meteorGenerator()
         meteorGuidedGenerator()
@@ -322,6 +323,7 @@ function meteorGuidedGenerator(){
             }
         })
     }) 
+
 
 })
 
