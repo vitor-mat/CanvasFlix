@@ -182,7 +182,7 @@ scene("game", () => {
     
 
     // .jump() when "space" key is pressed
-    onKeyPress("up", () => {
+    onKeyDown("up", () => {
         if (bean.isGrounded() && !k.debug.paused) {
             bean.jump(jumpForce);
             bean.play(charcaterDetails.jump)
@@ -304,10 +304,6 @@ scene("game", () => {
             if(plataforms.pos.x < 0){
                 destroy(plataforms)
             }
-
-            if(bean.pos.x > width()-190 && score >= pointsToFinsh.level1){
-                wait(1, () => go("win"))
-            }
         })
     }
 
@@ -318,6 +314,10 @@ scene("game", () => {
 
         if(bean.pos.y > height()  || bean.pos.x < 50){
             go("lose")
+        }
+
+        if(bean.pos.x > width()-190 && score >= pointsToFinsh.level1){
+            wait(.5, () => go("win"))
         }
     })
 
