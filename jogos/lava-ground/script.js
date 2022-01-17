@@ -195,17 +195,25 @@ scene("game", () => {
         }
     })
 
-
     onKeyDown("left", () => {
-        if(!k.debug.paused){bean.move(-moveForce, 0)
+        if(!k.debug.paused) bean.move(-moveForce, 0)
+    })
+
+    onKeyDown("right", () => {
+       if(!k.debug.paused) bean.move(moveForce, 0)
+    })
+
+
+    onKeyPress("left", () => {
+        if(!k.debug.paused){
         charcaterDetails.idle = "idleLeft"
         charcaterDetails.jump = "jumpLeft"
         charcaterDetails.crouched = "crouchedLeft"
         bean.play("runLeft")}
     })
 
-    onKeyDown("right", () => {
-        if(!k.debug.paused){bean.move(moveForce, 0)
+    onKeyPress("right", () => {
+        if(!k.debug.paused){
         charcaterDetails.idle = "idleRight"
         charcaterDetails.jump = "jumpRight"
         charcaterDetails.crouched = "crouchedRight"
@@ -213,7 +221,13 @@ scene("game", () => {
     })
 
     onKeyRelease(["up", "right", "left", "down"], () => {
-        if(!k.debug.paused) bean.play(charcaterDetails.idle)
+        if(isKeyPressed("right") || isKeyDown("right")){
+            bean.play("runRight")
+        }else if(isKeyPressed("left") || isKeyDown("left")){
+            bean.play("runLeft")
+        }else{
+            bean.play(charcaterDetails.idle)
+        }
     })
     
     bean.action(() => {
