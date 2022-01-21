@@ -22,7 +22,7 @@ const k = kaboom({
 document.querySelector("#canvas-container").appendChild(k.canvas)
 
 const pointsToFinsh = {
-    level1: 10
+    level1: 50
 }
 
 const charcaterDetails = {
