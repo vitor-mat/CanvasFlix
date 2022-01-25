@@ -83,11 +83,18 @@ main{
     color: var(--white-color);
     align-self: flex-end;
     cursor: pointer;
+    font-weight: 700;
+    font-size: 18px;
     transition: opacity .1s linear;
 }
 
 #btn-play:active{
     opacity: .7;
+}
+
+#btn-play:hover{
+    background: var(--white-color);
+    color: var(--highlight-color);
 }
 
 .game-post-highlight-img-div{
