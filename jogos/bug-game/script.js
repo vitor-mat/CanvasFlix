@@ -9,6 +9,13 @@ const k = kaboom({
     height: 650
 })
 
+function mobileAlert(){
+    if(largura < 800){
+        alert("Estamos na versão beta, os jogos não estão prontos para dispositivos mobiles")
+    }
+}
+mobileAlert()
+
 document.querySelector("#canvas-container").appendChild(k.canvas)
 
 const pointsToFinsh = {
