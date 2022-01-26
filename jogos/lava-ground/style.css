@@ -34,12 +34,31 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 header h2{
     color: var(--highlight-color);
     font-size: 56px;
     font-weight: 700;
+}
+
+#voltar-nav-txt{
+    color: var(--highlight-color);
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+    transition: .1s linear;
+}
+
+#voltar-nav-txt:hover{
+    color: var(--white-color);
+    text-decoration: underline;
+}
+
+#voltar-nav-txt:active{
+    opacity: .7
 }
 
 main{
