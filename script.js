@@ -78,14 +78,21 @@ function gerandoDivs(){
 
             const divItem = document.createElement("div")
             divItem.setAttribute("class", "item")
-        
+
+            const linkCap = document.createElement("a")
+            linkCap.href = "#game-capa-highlight"
+
             const imgCard = document.createElement("img")
             imgCard.src = value.card
             imgCard.alt = value.id
             imgCard.setAttribute("class", "card-image-game")
             imgCard.id = 'element-'+value.id        
 
-            divItem.appendChild(imgCard)
+            linkCap.appendChild(imgCard)
+
+
+            divItem.appendChild(linkCap)
+
         
             carouselGamesContainer.appendChild(divItem)
         
@@ -109,3 +116,4 @@ document.addEventListener("click", async (e) => {
     }
 
 })
+
