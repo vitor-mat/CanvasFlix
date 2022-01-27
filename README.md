@@ -31,13 +31,38 @@ Updates futuros serão feitos...
 
 ## Demonstração da Aplicação
 
-### Portfólio Desktop 1
+### CanvasFlix Desktop 1
 
-<img alt="portifolio desktop image 1" src="./readme_files/portifolio_desktop_1.png"/>
+<img alt="canvasflix desktop image 1" src="./readme_files/canvasflix_desktop_1.png"/>
 
-### portifolio Mobile
+### CanvasFlix Desktop 2
 
-<img alt="portifolio mobile image 1" src="./readme_files/portifolio_mobile_1.png"/>
+<img alt="canvasflix desktop image 2" src="./readme_files/canvasflix_desktop_2.png"/>
+
+### CanvasFlix Desktop 3
+
+<img alt="canvasflix desktop image 3" src="./readme_files/canvasflix_desktop_3.png"/>
+
+### CanvasFlix Desktop 4
+
+<img alt="canvasflix desktop image 4" src="./readme_files/canvasflix_desktop_4.png"/>
+
+### CanvasFlix Desktop 5
+
+<img alt="canvasflix desktop image 5" src="./readme_files/canvasflix_desktop_5.png"/>
+
+### portifolio Mobile 1
+
+<img alt="canvasflix mobile image 1" src="./readme_files/canvasflix_mobile_1.png"/>
+
+### portifolio Mobile 2
+
+<img alt="canvasflix mobile image 2" src="./readme_files/canvasflix_mobile_2.png"/>
+
+### portifolio Mobile 3
+
+<img alt="canvasflix mobile image 3" src="./readme_files/canvasflix_mobile_3.jpg"/>
+
 
 ## Pré Requisitos Para Rodar a Aplicação
 
@@ -52,6 +77,7 @@ A home pode ser aberta diretamente no navegador, mas os jogos precisarão de ser
 - [html](https://developer.mozilla.org/pt-BR/docs/Web/HTML)
 - [css](https://developer.mozilla.org/pt-BR/docs/Web/CSS)
 - [javscript](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript)
+- [kaboomjs](https://kaboomjs.com/#kaboom)
 
 ## Autor
 
