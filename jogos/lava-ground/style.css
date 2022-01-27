@@ -38,10 +38,20 @@ header{
     gap: 10px;
 }
 
+#title-logo{
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
 header h2{
     color: var(--highlight-color);
     font-size: 56px;
     font-weight: 700;
+}
+
+#beta{
+    color: var(--highlight-color)
 }
 
 #voltar-nav-txt{
