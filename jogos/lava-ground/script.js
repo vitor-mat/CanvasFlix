@@ -433,10 +433,10 @@ const handleStart = (e) => {
     }
 }
 
-document.addEventListener('click', (e) => {
+k.canvas.addEventListener('click', (e) => {
     handleStart(e)
 })
 
-document.addEventListener('keydown', (e) => {
+k.canvas.addEventListener('keydown', (e) => {
     if(e.key == "Enter" || e.key == " ") handleStart(e)
 })
