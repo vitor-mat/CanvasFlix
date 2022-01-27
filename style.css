@@ -164,3 +164,19 @@ footer{
 footer span{
     color: var(--highlight-color);
 }
+
+footer span a{
+    color: var(--white-color);
+    text-decoration: underline;
+    font-weight: 700;
+    cursor: pointer;
+    transform: .3s linear;
+}
+
+footer span a:hover{
+    color: var(--gray-color);
+}
+
+footer span a:active{
+    opacity: .7;
+}
