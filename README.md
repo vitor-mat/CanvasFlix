@@ -61,7 +61,7 @@ Updates futuros serão feitos...
 
 ### portifolio Mobile 3
 
-<img alt="canvasflix mobile image 3" src="./readme_files/canvasflix_mobile_3.jpg"/>
+<img alt="canvasflix mobile image 3" src="./readme_files/canvasflix_mobile_3.png"/>
 
 
 ## Pré Requisitos Para Rodar a Aplicação
