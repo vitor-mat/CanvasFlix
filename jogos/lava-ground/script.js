@@ -342,7 +342,7 @@ scene("game", () => {
 
 
     bean.onCollide("plataforms", () => {
-        if(!score) {
+        if(score == 0) {
             if(bean.isGrounded()) bean.play("idle")
             addKaboom(plataformStart.pos);
             destroy(plataformStart)
@@ -350,11 +350,11 @@ scene("game", () => {
         }
     })
 
-    bean.onCollide("plataform-start", () => {
+    wait(1, () => {
         loop(1, () => {
-            if(score > 0) scoreCount()
+            if(score > 0 && score <= 50) scoreCount()
     
-            if(!isFullscreen()){
+            if(!isFullscreen() && bean.pos.y){
                 k.debug.paused = true
                 pauseElement.opacity = 1
                 pauseBackground.opacity = 1
