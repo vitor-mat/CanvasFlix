@@ -140,18 +140,6 @@ scene("game", () => {
         ]
     })
 
-    const temportisador = setInterval(() => {
-        if(!isFullscreen()){
-            k.debug.paused = true
-            pauseElement.opacity = 1
-            pauseBackground.opacity = 1
-
-        }else{
-            pauseElement.opacity = 0
-            pauseBackground.opacity = 0
-        }
-    }, 1000)
-
     const pauseElement = add([
         text("paused"),
         pos(center()),
@@ -179,7 +167,7 @@ scene("game", () => {
         pos(150, 40),
         area(),
         body(),
-        z(1001)
+        z(999)
     ])
 
     bean.play(charcaterDetails.idle)
@@ -362,16 +350,28 @@ scene("game", () => {
         }
     })
 
-    loop(1, () => {
-        if(score > 0) scoreCount()
-
-        if(bean.pos.x > width()-190 && score >= pointsToFinsh.level1){
-            wait(.5, () => go("win"))
-        }
-        
-        if(bean.pos.y > height()  || bean.pos.x < 50){
-            wait(.5, () => go("lose"))
-        }
+    bean.onCollide("plataform-start", () => {
+        loop(1, () => {
+            if(score > 0) scoreCount()
+    
+            if(!isFullscreen()){
+                k.debug.paused = true
+                pauseElement.opacity = 1
+                pauseBackground.opacity = 1
+    
+            }else{
+                pauseElement.opacity = 0
+                pauseBackground.opacity = 0
+            }
+    
+            if(bean.pos.x > width()-190 && score >= pointsToFinsh.level1){
+                wait(.5, () => go("win"))
+            }
+            
+            if(bean.pos.y > height()  || bean.pos.x < 50){
+                wait(.5, () => go("lose"))
+            }
+        })
     })
 
 })
