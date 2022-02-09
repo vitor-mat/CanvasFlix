@@ -317,18 +317,6 @@ scene("game", () => {
     spawnTreeSide()
 
 
-    onUpdate(() => {
-
-        if(bean.pos.y > height()  || bean.pos.x < 50){
-            go("lose")
-        }
-
-        if(bean.pos.x > width()-190 && score >= pointsToFinsh.level1){
-            wait(.5, () => go("win"))
-        }
-    })
-
-
     /*SCORE --------------------------------------------------- */
 
     let finshPlataform, finshPlataformText
@@ -371,7 +359,18 @@ scene("game", () => {
             addKaboom(plataformStart.pos);
             destroy(plataformStart)
             scoreCount()
-            loop(1, () => scoreCount())
+        }
+    })
+
+    loop(1, () => {
+        if(score > 0) scoreCount()
+
+        if(bean.pos.x > width()-190 && score >= pointsToFinsh.level1){
+            wait(.5, () => go("win"))
+        }
+        
+        if(bean.pos.y > height()  || bean.pos.x < 50){
+            wait(.5, () => go("lose"))
         }
     })
 
