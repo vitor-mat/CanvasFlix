@@ -157,12 +157,6 @@ scene("game", () => {
         }else{
             camPos(dino.pos.x, center().y)
         }
-
-        if(dino.pos.y > height() && dino.pos.x > 6009){
-            go("win")
-        }else if(dino.pos.y > height() && dino.pos.x < 6009){
-            go("lose")
-        }
     })
 
     dino.play(charcaterDetails.idle)
@@ -327,6 +321,12 @@ function meteorGuidedGenerator(){
             }else{
                 pauseElement.opacity = 0
                 pauseBackground.opacity = 0
+            }
+
+            if(dino.pos.y > height() && dino.pos.x > 6009){
+                go("win")
+            }else if(dino.pos.y > height() && dino.pos.x < 6009){
+                go("lose")
             }
         })
     }) 
