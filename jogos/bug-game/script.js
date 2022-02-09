@@ -277,15 +277,6 @@ scene("game", () => {
             return;
         }
 
-        if (bugRock.pos.x < 6320 && bugRock.pos.x > 6000) {
-            go("win")
-        }
-
-        if (bugRock.pos.y > height()) {
-            go("lose")
-            return;
-        }
-
         if (bugRock.pos.x < center().x + 60) {
             camPos(center().x + 60, center().y)
             return;
@@ -308,22 +299,28 @@ scene("game", () => {
 
 
     /*Start scoore */
-    bugRock.onCollide("ground", () => {
-        if (score == 60) {
-            if (bugRock.isGrounded()) bugRock.play("idle")
-            loop(1, () => {
-                scoreCount()
-                if (!isFullscreen()) {
-                    k.debug.paused = true
-                    pauseElement.opacity = 1
-                    pauseBackground.opacity = 1
-                }
+    loop(1, () => {
 
-                if (isFullscreen() && pauseElement.opacity == 1) {
-                    pauseElement.opacity = 0
-                    pauseBackground.opacity = 0
-                }
-            })
+        if(bugRock.isGrounded() || score < 60) scoreCount()
+
+        if (!isFullscreen() && score < 60) {
+            k.debug.paused = true
+            pauseElement.opacity = 1
+            pauseBackground.opacity = 1
+        }
+
+        if (isFullscreen() && pauseElement.opacity == 1) {
+            pauseElement.opacity = 0
+            pauseBackground.opacity = 0
+        }
+
+        if (bugRock.pos.x < 6320 && bugRock.pos.x > 6000) {
+            go("win")
+        }
+
+        if (bugRock.pos.y > height()) {
+            go("lose")
+            return;
         }
     })
 
@@ -355,6 +352,7 @@ scene("lose", () => {
         text("Game Over"),
         pos(center()),
         origin("center"),
+        fixed()
     ])
 
     add([
@@ -363,6 +361,7 @@ scene("lose", () => {
         }),
         pos(center().x, center().y + 60),
         origin("center"),
+        fixed()
     ])
 
     validation = true;
