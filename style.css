@@ -149,9 +149,6 @@ main{
     cursor:grab;
 }
 
-.card-image-game:active{
-    cursor: pointer;
-}
 
 footer{
     width: 100%;
